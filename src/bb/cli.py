@@ -10,17 +10,17 @@ import click
 from rich.console import Console
 from rich.table import Table
 
-from bbcli import auth
-from bbcli.client import BitbucketClient
-from bbcli.api import pullrequests, comments
+from bb import auth
+from bb.client import BitbucketClient
+from bb.api import pullrequests, comments
 
 console = Console()
 
 # --- Config loading ---
 
 def _load_config() -> dict:
-    """Load defaults from ~/.config/bbcli/config.toml if it exists."""
-    config_path = Path.home() / ".config" / "bbcli" / "config.toml"
+    """Load defaults from ~/.config/bb/config.toml if it exists."""
+    config_path = Path.home() / ".config" / "bb" / "config.toml"
     if not config_path.exists():
         return {}
     try:
@@ -75,7 +75,7 @@ def _get_default(name: str) -> str:
 # --- CLI groups ---
 
 @click.group()
-@click.version_option(package_name="bb-cli")
+@click.version_option(package_name="bb")
 def main():
     """Bitbucket Cloud CLI for PR review workflows."""
 
@@ -124,7 +124,7 @@ def pr(ctx, workspace, repo):
     if not ctx.obj["workspace"] or not ctx.obj["repo"]:
         raise click.UsageError(
             "Workspace and repo required. Use --workspace/--repo, "
-            "BITBUCKET_WORKSPACE/BITBUCKET_REPO env vars, or ~/.config/bbcli/config.toml"
+            "BITBUCKET_WORKSPACE/BITBUCKET_REPO env vars, or ~/.config/bb/config.toml"
         )
 
 

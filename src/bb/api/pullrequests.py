@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-from bbcli.client import BitbucketClient
-from bbcli.models import DiffStat, PullRequest
+from bb.client import BitbucketClient
+from bb.models import DiffStat, PullRequest
 
 
 def list_prs(

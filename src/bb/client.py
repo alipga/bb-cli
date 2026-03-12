@@ -5,7 +5,7 @@ from typing import Iterator
 import click
 import httpx
 
-from bbcli.auth import get_auth
+from bb.auth import get_auth
 
 BASE_URL = "https://api.bitbucket.org/2.0"
 

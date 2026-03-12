@@ -4,8 +4,8 @@ import json
 import os
 from pathlib import Path
 
-SERVICE_NAME = "bbcli"
-CONFIG_DIR = Path.home() / ".config" / "bbcli"
+SERVICE_NAME = "bb"
+CONFIG_DIR = Path.home() / ".config" / "bb"
 TOKEN_FILE = CONFIG_DIR / "tokens.json"
 
 

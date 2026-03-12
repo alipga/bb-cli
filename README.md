@@ -1,14 +1,14 @@
-# bb-cli
+# bb
 
 **`gh` for GitHub. `bb` for Bitbucket.** The missing command-line tool for Bitbucket Cloud pull requests.
 
-[![PyPI](https://img.shields.io/pypi/v/bb-cli)](https://pypi.org/project/bb-cli/)
-[![Python](https://img.shields.io/pypi/pyversions/bb-cli)](https://pypi.org/project/bb-cli/)
+[![PyPI](https://img.shields.io/pypi/v/bb)](https://pypi.org/project/bb/)
+[![Python](https://img.shields.io/pypi/pyversions/bb)](https://pypi.org/project/bb/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 <!-- TODO: Add terminal screenshot/GIF here showing `bb pr list` output -->
 
-## Why bb-cli?
+## Why bb?
 
 GitHub has `gh`. GitLab has `glab`. **Bitbucket Cloud has nothing** — until now.
 
@@ -24,7 +24,7 @@ If you use Bitbucket at work, you know the pain: context-switch to the browser t
 ## Quick Start
 
 ```bash
-pip install bb-cli
+pip install bb
 bb auth login
 bb pr list
 ```
@@ -56,13 +56,13 @@ bb pr merge 42 --strategy squash --close-source
 
 ```bash
 # pip
-pip install bb-cli
+pip install bb
 
 # pipx (isolated install, recommended)
-pipx install bb-cli
+pipx install bb
 
 # uv
-uv tool install bb-cli
+uv tool install bb
 ```
 
 Requires Python 3.10+.
@@ -75,7 +75,7 @@ Requires Python 3.10+.
 
 1. Go to [**Atlassian API tokens**](https://id.atlassian.com/manage-profile/security/api-tokens)
 2. Click **Create API token**
-3. Give it a label (e.g. `bb-cli`)
+3. Give it a label (e.g. `bb`)
 4. Select the following permissions:
 
    **Read:**
@@ -97,7 +97,7 @@ bb auth login
 # Prompts for your Bitbucket email + API token
 ```
 
-Credentials are stored in your system keyring. If keyring is unavailable, they fall back to `~/.config/bbcli/tokens.json` (file mode `600`).
+Credentials are stored in your system keyring. If keyring is unavailable, they fall back to `~/.config/bb/tokens.json` (file mode `600`).
 
 ```bash
 bb auth status   # Verify credentials
@@ -110,7 +110,7 @@ In most cases, you don't need any configuration — `bb` reads your git remote.
 
 ### Config file (optional)
 
-Create `~/.config/bbcli/config.toml` to set defaults:
+Create `~/.config/bb/config.toml` to set defaults:
 
 ```toml
 [defaults]
@@ -175,7 +175,7 @@ bb pr -w myteam -r backend show 99
 
 ## Claude Code Integration
 
-`bb-cli` ships with a [Claude Code](https://claude.com/claude-code) skill file for AI-assisted PR review workflows. To enable it:
+`bb` ships with a [Claude Code](https://claude.com/claude-code) skill file for AI-assisted PR review workflows. To enable it:
 
 ```bash
 cp -r skills/bb ~/.claude/skills/bb
