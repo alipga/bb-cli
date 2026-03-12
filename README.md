@@ -69,7 +69,11 @@ Requires Python 3.10+.
 
 ## Authentication
 
-`bb` uses [Atlassian API tokens](https://id.atlassian.com/manage-profile/security/api-tokens) for authentication.
+`bb` uses [Atlassian API tokens](https://id.atlassian.com/manage-profile/security/api-tokens) for authentication. Create a token with the following scopes:
+
+**Read:** `read:me`, `read:pullrequest:bitbucket`, `read:repository:bitbucket`, `read:project:bitbucket`, `read:user:bitbucket`
+
+**Write:** `write:pullrequest:bitbucket`
 
 ```bash
 bb auth login    # Opens browser to create a token, then prompts for credentials

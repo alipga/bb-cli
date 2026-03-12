@@ -54,6 +54,8 @@ def _file_delete() -> None:
 
 
 def store_credentials(email: str, api_token: str) -> None:
+    """Store credentials, clearing both backends first to avoid stale data."""
+    clear_credentials()
     payload = json.dumps({"email": email, "api_token": api_token})
     if not _try_keyring_store("credentials", payload):
         _file_store(json.loads(payload))
@@ -101,11 +103,35 @@ def _open_url(url: str) -> None:
         pass
 
 
-def login() -> None:
-    """Prompt for email and API token, verify, then store."""
-    import click
+def _verify(email: str, api_token: str) -> dict | None:
+    """Verify credentials against the API. Returns user dict or None."""
     import httpx
+    try:
+        resp = httpx.get(
+            "https://api.bitbucket.org/2.0/user",
+            auth=(email, api_token),
+            timeout=10.0,
+        )
+        if resp.status_code == 200:
+            return resp.json()
+    except Exception:
+        pass
+    return None
 
+
+def login() -> None:
+    """Check existing credentials first; prompt only if invalid or missing."""
+    import click
+
+    # Try existing credentials
+    creds = load_credentials()
+    if creds:
+        user = _verify(creds["email"], creds["api_token"])
+        if user:
+            click.echo(f"Already logged in as {user.get('display_name', '')} ({creds['email']})")
+            return
+
+    # Prompt for new credentials
     click.echo("You need an Atlassian API token.")
     click.echo()
 
@@ -115,14 +141,9 @@ def login() -> None:
 
     email = click.prompt("Bitbucket email")
     api_token = click.prompt("API token", hide_input=True)
-    resp = httpx.get(
-        "https://api.bitbucket.org/2.0/user",
-        auth=(email, api_token),
-        timeout=10.0,
-    )
-    if resp.status_code != 200:
-        raise SystemExit(f"Authentication failed (HTTP {resp.status_code}). Check your email and API token.")
-    user = resp.json()
+    user = _verify(email, api_token)
+    if not user:
+        raise SystemExit("Authentication failed. Check your email and API token.")
     store_credentials(email, api_token)
     click.echo(f"Logged in as {user.get('display_name', '')} ({email})")
 
@@ -132,14 +153,8 @@ def status() -> dict | None:
     creds = load_credentials()
     if not creds:
         return None
-    import httpx
-    resp = httpx.get(
-        "https://api.bitbucket.org/2.0/user",
-        auth=(creds["email"], creds["api_token"]),
-        timeout=10.0,
-    )
-    if resp.status_code == 200:
-        user = resp.json()
+    user = _verify(creds["email"], creds["api_token"])
+    if user:
         creds["display_name"] = user.get("display_name", "")
         creds["username"] = user.get("username", "")
         creds["valid"] = True
