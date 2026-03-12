@@ -81,15 +81,39 @@ def get_auth() -> tuple[str, str]:
 
 # --- CLI actions ---
 
+API_TOKEN_URL = "https://id.atlassian.com/manage-profile/security/api-tokens"
+
+
+def _open_url(url: str) -> None:
+    """Open a URL in the default browser, suppressing noisy subprocess errors."""
+    import platform
+    import subprocess as _sp
+    system = platform.system()
+    if system == "Darwin":
+        cmd = ["open", url]
+    elif system == "Windows":
+        cmd = ["start", url]
+    else:
+        cmd = ["xdg-open", url]
+    try:
+        _sp.Popen(cmd, stdout=_sp.DEVNULL, stderr=_sp.DEVNULL)
+    except OSError:
+        pass
+
+
 def login() -> None:
     """Prompt for email and API token, verify, then store."""
     import click
     import httpx
-    click.echo("Tip: Create an API token at https://id.atlassian.com/manage-profile/security/api-tokens")
-    click.echo("     Required permissions: read:{project,pullrequest,repository,runner,workspace,user}")
-    click.echo("                           write:{pullrequest,issue}")
+
+    click.echo("You need an Atlassian API token.")
     click.echo()
-    email = click.prompt("Bitbucket account email")
+
+    if click.confirm("Open Atlassian in your browser to create one?", default=True):
+        _open_url(API_TOKEN_URL)
+        click.echo()
+
+    email = click.prompt("Bitbucket email")
     api_token = click.prompt("API token", hide_input=True)
     resp = httpx.get(
         "https://api.bitbucket.org/2.0/user",

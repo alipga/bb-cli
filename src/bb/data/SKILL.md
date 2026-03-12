@@ -10,15 +10,21 @@ You have access to the `bb` CLI tool for interacting with Bitbucket Cloud pull r
 
 ## Prerequisites
 
-- The user must have run `bb auth login` once to store credentials.
+- The user must have run `bb setup` (or `bb auth login`) once to store credentials.
 - The current directory must be a git repo cloned from Bitbucket, OR use `-w`/`-r` flags.
 
 ## Available Commands
 
+### Setup
+```bash
+bb setup          # Full setup: authenticate + install Claude Code skill
+bb setup-skill    # Install/update just the Claude Code skill
+```
+
 ### Authentication
 ```bash
 bb auth status    # Check if authenticated (verifies against API)
-bb auth login     # Interactive — prompts for email + API token
+bb auth login     # Interactive — opens browser, prompts for email + API token
 bb auth logout    # Clear stored credentials
 ```
 

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import importlib.resources
 import json as json_mod
 import os
 import re
@@ -108,6 +109,41 @@ def auth_status():
 def auth_logout():
     """Clear stored tokens."""
     auth.logout()
+
+
+# --- Setup commands ---
+
+SKILL_DEST = Path.home() / ".claude" / "skills" / "bb"
+
+
+def _install_skill() -> Path:
+    """Copy the bundled SKILL.md to ~/.claude/skills/bb/."""
+    SKILL_DEST.mkdir(parents=True, exist_ok=True)
+    src = importlib.resources.files("bb").joinpath("data/SKILL.md")
+    dest = SKILL_DEST / "SKILL.md"
+    dest.write_text(src.read_text())
+    return dest
+
+
+@main.command("setup-skill")
+def setup_skill():
+    """Install the Claude Code skill for AI-assisted PR reviews."""
+    dest = _install_skill()
+    console.print(f"[green]Skill installed[/green] at {dest}")
+
+
+@main.command("setup")
+@click.pass_context
+def setup(ctx):
+    """Set up bb: authenticate and install the Claude Code skill."""
+    console.print("[bold]Step 1/2:[/bold] Authentication\n")
+    auth.login()
+    console.print()
+    console.print("[bold]Step 2/2:[/bold] Claude Code skill\n")
+    dest = _install_skill()
+    console.print(f"[green]Skill installed[/green] at {dest}")
+    console.print()
+    console.print("[bold green]All set![/bold green] Try: bb pr list")
 
 
 # --- PR commands ---

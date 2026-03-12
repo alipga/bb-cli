@@ -25,11 +25,11 @@ If you use Bitbucket at work, you know the pain: context-switch to the browser t
 
 ```bash
 pip install bb
-bb auth login
+bb setup        # authenticates + installs Claude Code skill
 bb pr list
 ```
 
-That's it. If you're in a Bitbucket repo, `bb` auto-detects your workspace and repo.
+That's it. `bb setup` walks you through creating an API token (opens your browser), then installs the Claude Code skill. If you're in a Bitbucket repo, `bb` auto-detects your workspace and repo.
 
 ### 60-second workflow: review a PR from your terminal
 
@@ -69,40 +69,15 @@ Requires Python 3.10+.
 
 ## Authentication
 
-`bb` uses Bitbucket [App Passwords](https://support.atlassian.com/bitbucket-cloud/docs/create-an-app-password/) (API tokens) for authentication.
-
-### Creating an API token
-
-1. Go to [**Atlassian API tokens**](https://id.atlassian.com/manage-profile/security/api-tokens)
-2. Click **Create API token**
-3. Give it a label (e.g. `bb`)
-4. Select the following permissions:
-
-   **Read:**
-   - `read:project:bitbucket`
-   - `read:pullrequest:bitbucket`
-   - `read:repository:bitbucket`
-   - `read:runner:bitbucket`
-   - `read:workspace:bitbucket`
-   - `read:user:bitbucket`
-
-   **Write:**
-   - `write:pullrequest:bitbucket`
-   - `write:issue:bitbucket`
-
-5. Click **Create** and copy the generated token
+`bb` uses [Atlassian API tokens](https://id.atlassian.com/manage-profile/security/api-tokens) for authentication.
 
 ```bash
-bb auth login
-# Prompts for your Bitbucket email + API token
-```
-
-Credentials are stored in your system keyring. If keyring is unavailable, they fall back to `~/.config/bb/tokens.json` (file mode `600`).
-
-```bash
+bb auth login    # Opens browser to create a token, then prompts for credentials
 bb auth status   # Verify credentials
 bb auth logout   # Clear stored credentials
 ```
+
+Credentials are stored in your system keyring. If keyring is unavailable, they fall back to `~/.config/bb/tokens.json` (file mode `600`).
 
 ## Configuration
 
@@ -175,13 +150,13 @@ bb pr -w myteam -r backend show 99
 
 ## Claude Code Integration
 
-`bb` ships with a [Claude Code](https://claude.com/claude-code) skill file for AI-assisted PR review workflows. To enable it:
+`bb` ships with a [Claude Code](https://claude.com/claude-code) skill for AI-assisted PR review workflows:
 
 ```bash
-cp -r skills/bb ~/.claude/skills/bb
+bb setup-skill   # installs to ~/.claude/skills/bb/
 ```
 
-Then Claude can list PRs, read diffs, post review comments, and manage threads on your behalf.
+This is included automatically when you run `bb setup`. Once installed, Claude can list PRs, read diffs, post review comments, and manage threads on your behalf.
 
 ## Contributing
 

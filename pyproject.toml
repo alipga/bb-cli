@@ -31,3 +31,6 @@ Issues = "https://github.com/ali/bb/issues"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.setuptools.package-data]
+bb = ["data/*.md"]
