@@ -76,7 +76,7 @@ def _get_default(name: str) -> str:
 # --- CLI groups ---
 
 @click.group()
-@click.version_option(package_name="bb")
+@click.version_option(package_name="bb-tool")
 def main():
     """Bitbucket Cloud CLI for PR review workflows."""
 

@@ -3,8 +3,8 @@ requires = ["setuptools>=68.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "bb"
-version = "0.1.0"
+name = "bb-tool"
+version = "1.0.0"
 description = "Bitbucket Cloud CLI for PR review workflows"
 readme = "README.md"
 license = "MIT"
@@ -25,9 +25,9 @@ dependencies = [
 bb = "bb.cli:main"
 
 [project.urls]
-Homepage = "https://github.com/ali/bb"
-Repository = "https://github.com/ali/bb"
-Issues = "https://github.com/ali/bb/issues"
+Homepage = "https://github.com/alipga/bb-cli"
+Repository = "https://github.com/alipga/bb-cli"
+Issues = "https://github.com/alipga/bb-cli/issues"
 
 [tool.setuptools.packages.find]
 where = ["src"]

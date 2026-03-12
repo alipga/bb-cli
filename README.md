@@ -2,8 +2,8 @@
 
 **`gh` for GitHub. `bb` for Bitbucket.** The missing command-line tool for Bitbucket Cloud pull requests.
 
-[![PyPI](https://img.shields.io/pypi/v/bb)](https://pypi.org/project/bb/)
-[![Python](https://img.shields.io/pypi/pyversions/bb)](https://pypi.org/project/bb/)
+[![PyPI](https://img.shields.io/pypi/v/bb-tool)](https://pypi.org/project/bb-tool/)
+[![Python](https://img.shields.io/pypi/pyversions/bb-tool)](https://pypi.org/project/bb-tool/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 <!-- TODO: Add terminal screenshot/GIF here showing `bb pr list` output -->
@@ -24,7 +24,7 @@ If you use Bitbucket at work, you know the pain: context-switch to the browser t
 ## Quick Start
 
 ```bash
-pip install bb
+pip install bb-tool
 bb setup        # authenticates + installs Claude Code skill
 bb pr list
 ```
@@ -56,13 +56,13 @@ bb pr merge 42 --strategy squash --close-source
 
 ```bash
 # pip
-pip install bb
+pip install bb-tool
 
 # pipx (isolated install, recommended)
-pipx install bb
+pipx install bb-tool
 
 # uv
-uv tool install bb
+uv tool install bb-tool
 ```
 
 Requires Python 3.10+.
